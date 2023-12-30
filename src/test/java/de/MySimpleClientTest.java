@@ -3,7 +3,6 @@ package test.java.de;
 
 import main.java.de.MySimpleClient;
 import org.testng.annotations.Test;
-import static org.testng.Assert.*;
 
 public class MySimpleClientTest {
 
