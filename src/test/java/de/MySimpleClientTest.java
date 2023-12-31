@@ -11,7 +11,7 @@ public class MySimpleClientTest {
     @Test
     public void test_sendRequestWithPrompt() {
         MySimpleClient mySimpleClient = new MySimpleClient();
-        mySimpleClient.startRequest();
+        mySimpleClient.startRequest("Here is a valid prompt");
         // Assert that the request is sent to the OpenAI API with the correct prompt
         // Use a mock to verify that the createRequestForPrompt method is called with the correct prompt
     }
@@ -20,7 +20,7 @@ public class MySimpleClientTest {
     @Test
     public void test_receiveResponseFromAPI() {
         MySimpleClient mySimpleClient = new MySimpleClient();
-        mySimpleClient.startRequest();
+        mySimpleClient.startRequest("Here is a valid prompt");
         // Assert that a response is received from the OpenAI API
         // Use a mock to simulate a response from the API and verify that the sendQuestion method is called
     }
@@ -29,7 +29,7 @@ public class MySimpleClientTest {
     @Test
     public void test_parseResponseAndExtractText() {
         MySimpleClient mySimpleClient = new MySimpleClient();
-        mySimpleClient.startRequest();
+        mySimpleClient.startRequest("Here is a valid prompt");
         // Assert that the response is parsed correctly and the generated text is extracted
         // Use a mock to simulate a response and verify that the generated text is extracted correctly
     }

@@ -18,23 +18,33 @@ public class MySimpleClient {
     private static final OkHttpClient client = new OkHttpClient();
     private static final Gson gson = new Gson();
 
-    public void startRequest() {
-        String prompt = "Wie geht es dir?";
+    public String startRequest(String prompt) {
+        String generatedText = null;
 
         Request request = createRequestForPrompt(prompt);
 
         try {
-            String generatedText = sendQuestion(request);
+            generatedText = sendQuestion(request);
             if (generatedText != null) {
                 logger.info(generatedText);
+                return generatedText;
             }
         } catch (IOException e) {
+            logger.error("An error occurred while sending the question: ", e);
             System.err.println("An error occurred while sending the question: " + e.getMessage());
         }
+
+        return generatedText;
     }
 
     @NotNull
     private Request createRequestForPrompt(String prompt) {
+        if (prompt == null || prompt.trim().isEmpty()) {
+            System.err.println("The prompt must not be empty!");
+            logger.warn("The prompt was empty, no request will be sent.");
+            System.exit(1);
+        }
+
         String apiKey = getApiKey();
 
         JsonObject jsonBody = new JsonObject();
@@ -61,6 +71,9 @@ public class MySimpleClient {
             }
 
             responseBody = response.body().string();
+        } catch (Exception e) {
+            logger.error("Response failed !", e);
+            return null;
         }
 
         JsonObject jsonObject = JsonParser.parseString(responseBody).getAsJsonObject();
@@ -79,6 +92,7 @@ public class MySimpleClient {
         String variableValue = System.getenv(OPENAI_API_KEY);
 
         if (variableValue == null) {
+            logger.error("API key not found");
             System.err.println("API key not found");
             System.exit(1);
         }
